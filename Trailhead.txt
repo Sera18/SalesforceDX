@@ -1,0 +1,28 @@
+// an alias DevHub
+sfdx force:auth:web:login -d -a DevHub
+
+mkdir my_sfdx_project
+cd my_sfdx_project
+
+git clone https://github.com/dreamhouseapp/dreamhouse-sfdx.git
+
+cd dreamhouse-sfdx
+
+// create a new branch
+git checkout -b my_branch
+
+sfdx force --help
+
+// create the scratch org
+sfdx force:org:create -s -f config/project-scratch-def.json -a dreamhouse-org
+
+sfdx force:org:open
+
+// push all the local source into the scratch org
+sfdx force:source:push
+
+// assign a permission set
+sfdx force:user:permset:assign -n Dreamhouse
+
+// import test data
+sfdx force:data:tree:import --plan data/sample-data-plan.json
